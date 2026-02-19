@@ -1,0 +1,41 @@
+experiment_name: cifar_cnn_ddn_image_only_mse_k64
+output_dir: experiments/cifar_cnn_ddn_image_only_mse_k64
+seed: 42
+
+dataset:
+  name: cifar10
+  root: ./data
+  image_size: 32
+  channels: 3
+  normalize: true
+  mean: [0.4914, 0.4822, 0.4465]
+  std: [0.2470, 0.2435, 0.2616]
+  split:
+    val_fraction: 0.5
+    seed: 42
+
+model:
+  mode: image_only
+  arch: cnn_ddn
+  K: 64
+  L: 10
+  cnn_ddn:
+    base_channels: 64
+    feat_channels: 64
+
+training:
+  loss_type: mse
+  init_type: zeros
+  batch_size: 128
+  batch_size_val: 128
+  epochs: 70
+  learning_rate: 1e-4
+  weight_decay: 0.0
+  warmup_steps: 4000
+  training_strategy: split_prune
+  softmax_tau: 0.1
+  chain_dropout_prob: 0.05
+  split_prune:
+    P_split: null
+    P_prune: null
+    min_total: 5000

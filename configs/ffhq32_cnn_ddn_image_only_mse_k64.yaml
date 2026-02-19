@@ -1,0 +1,43 @@
+experiment_name: ffhq32_cnn_ddn_image_only_mse_k64
+output_dir: experiments/ffhq64_cnn_ddn_image_only_mse_k64
+seed: 42
+
+dataset:
+  name: ffhq
+  # folder with 256x256 PNGs
+  root: ./data/ffhq/images256x256
+  image_size: 32   
+  channels: 3
+  normalize: true
+  mean: [0.5, 0.5, 0.5]
+  std: [0.5, 0.5, 0.5]
+  split:
+    train_fraction: 0.9
+    val_fraction: 0.05
+    seed: 42
+
+model:
+  mode: image_only
+  arch: cnn_ddn
+  K: 64
+  L: 10
+  cnn_ddn:
+    base_channels: 64
+    feat_channels: 64
+
+training:
+  loss_type: mse
+  init_type: zeros
+  batch_size: 128
+  batch_size_val: 128
+  epochs: 50
+  learning_rate: 2e-4
+  weight_decay: 0.0
+  warmup_steps: 10000
+  training_strategy: split_prune
+  softmax_tau: 0.1
+  chain_dropout_prob: 0.05
+  split_prune:
+    P_split: null
+    P_prune: null
+    min_total: 20000

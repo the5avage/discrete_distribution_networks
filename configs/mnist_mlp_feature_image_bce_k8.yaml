@@ -1,0 +1,43 @@
+experiment_name: mnist_mlp_feature_image_bce_k8
+output_dir: experiments/mnist_mlp_feature_image_bce_k8
+seed: 42
+
+dataset:
+  name: mnist
+  root: ./data
+  image_size: 28
+  channels: 1
+  normalize: false
+  mean: [0.0]
+  std: [1.0]
+  split:
+    val_fraction: 0.5
+    seed: 42
+
+model:
+  mode: feature_image      # carry feature h_l
+  arch: mlp
+  K: 8
+  L: 10
+  mlp:
+    # For feature_image MLP we use 2-layer backbone to feature, like before
+    hidden_dims: [1024, 512]
+    feat_dim: 256
+
+training:
+  loss_type: bce
+  init_type: zeros
+  batch_size: 128
+  batch_size_val: 128
+  epochs: 50
+  learning_rate: 1e-4
+  weight_decay: 0.0
+  warmup_steps: 1680
+  L: 10
+  training_strategy: naive
+  softmax_tau: 0.1
+  chain_dropout_prob: 0.0
+  split_prune:
+    P_split: null
+    P_prune: null
+    min_total: 5000
