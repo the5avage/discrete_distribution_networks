@@ -101,28 +101,38 @@ Experiments were conducted on:
 
 ### Reconstruction Quality
 
-The model learns to reconstruct images through the hierarchical selection process:
+Images can be compressed and reconstructed through the hierarchical selection process. Here the original (from the unseen testset) is shown on the left, and the reconstruction on the right.
+Colored images are compressed into a sequence of length 10 with 64 possible codewords. This sequence needs only 60 bits which results in a compression ratio of 410:1 for 32x32 RGB images with 8 bits per channel.
 
-![Reconstruction Examples](images/reconstruction_examples.png)
+![Reconstruction Examples Numbers](images/reconstructed_numbers.png)
+
+![Reconstruction Examples Faces](images/reconstructed_faces.png)
+
+![Reconstruction Examples CIFAR](images/reconstructions_cifar.png)
 
 ### Generation via Random Sampling
 
-For generation, replace the guided sampler with random selection at each layer:
+For generation, the guided sampler can be replaced with random selection at each layer:
 
-![Random Samples](images/random_samples.png)
+![Random Samples Faces](images/random_faces.png)
+
+![Random Samples Numbers](images/random_numbers.png)
 
 ### Training Curves
 
 Loss curves showing training and validation loss over epochs:
 
-![Training Curves](images/training_curves.png)
+![Training Curves](images/loss.png)
 
 ### Comparison: Image-Only vs Feature-Image Mode
 
-| Mode | CIFAR-10 Val Loss | Notes |
-|------|-------------------|-------|
-| `feature_image` | *TBD* | Carries persistent feature state |
-| `image_only` | *TBD* | Simplified, image-only feedback |
+The table below shows results for the example configuration files. The results for image-only and feature-image mode are very similiar.  
+There could be different reasons for this behavior. The implementation here is just based on the descriptions in the paper, not on the original code.
+
+| Mode | MNIST BCE Loss | FFHQ MSE Loss | CIFAR-10 MSE Loss |
+|------|----------|---------|-------|
+| `feature_image` | 0.1522 | 0.0777 | 0.3364 |
+| `image_only` | 0.1546 | 0.0777 | 0.3368 |
 
 ![Mode Comparison](images/mode_comparison.png)
 
@@ -282,8 +292,6 @@ If `--weights` is not specified, it will look for the best checkpoint in the def
 - **Auto Run**: Continuously step until reaching layer L
 - **Stop Auto**: Stop the auto-run process
 - **Click on Candidate**: (In Manual mode) Select that branch
-
-![GUI Demo](images/gui_screenshot.png)
 
 ---
 
